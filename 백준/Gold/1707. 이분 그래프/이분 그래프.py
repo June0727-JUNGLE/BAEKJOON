@@ -1,20 +1,17 @@
 from collections import deque
 import sys
 input = sys.stdin.readline
+sys.setrecursionlimit(10**6)
 
-def DFS(start, col):
-    stk = deque([start])
+def DFS_recursion(start, col):
     visited[start] = col
-
-    while stk:
-        u = stk.pop()
-        for v in graph[u]:
-            if not visited[v]:
-                stk.append(v)
-                visited[v] = -visited[u]
-            elif visited[v] == visited[u]:
+    for v in graph[start]:
+        if visited[v] == 0:
+            if DFS_recursion(v, -col):
                 return True
-    return False   
+        elif visited[v] == col:
+            return True
+    return False
 
 if __name__ == "__main__":
     K = int(input())
@@ -28,13 +25,13 @@ if __name__ == "__main__":
             graph[u].append(v)
             graph[v].append(u)
 
-        visited = [False] * (V+1)
+        visited = [0] * (V+1)
+        result = False
 
         for i in range(1, V+1):
-            if not visited[i]:
-                result = DFS(i, 1)
-                if result:
-                    print("NO")
+            if visited[i] == 0:
+                if DFS_recursion(i, 1):
+                    result = True
                     break
-        else:
-            print("YES")
+
+        print("NO" if result else "YES")
