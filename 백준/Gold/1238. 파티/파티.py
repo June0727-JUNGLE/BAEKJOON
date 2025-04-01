@@ -9,7 +9,7 @@ for _ in range(M):
     u, v, t = map(int, input().split())
     graph[u].append((v,t))
 
-def dijkstra(graph, start, target):
+def dijkstra(graph, start):
     distance = [float('inf')] * (len(graph))
     distance[start] = 0
     hq = [(0, start)]
@@ -23,10 +23,12 @@ def dijkstra(graph, start, target):
             if new_cost < distance[next_node]:
                 distance[next_node] = new_cost
                 heapq.heappush(hq, (new_cost, next_node))
-    return distance[target]
+    return distance
+
+to_all = dijkstra(graph, X)
 res = [0] * (N+1)
 for i in range(1, N+1):
-    res[i] += dijkstra(graph, i, X)
-    res[i] += dijkstra(graph, X, i)
+    from_i = dijkstra(graph, i)
+    res[i] = from_i[X] + to_all[i]
 
 print(max(res))
