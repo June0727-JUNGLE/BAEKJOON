@@ -1,9 +1,11 @@
 n = int(input())
-dp = [0] * (n + 2)  # n == 1일 경우 대비
-dp[1] = 1
-dp[2] = 2
 
-for i in range(3, n + 1):
-    dp[i] = (dp[i - 1] + dp[i - 2]) % 10007
-
-print(dp[n])
+if n == 1:
+    print(1)
+elif n == 2:
+    print(2)
+else:
+    a, b = 1, 2  # a = dp[1], b = dp[2]
+    for _ in range(3, n + 1):
+        a, b = b, (a + b) % 10007  # b = dp[i-1], a = dp[i-2]
+    print(b)
