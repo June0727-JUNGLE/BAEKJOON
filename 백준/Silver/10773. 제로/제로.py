@@ -1,14 +1,16 @@
 import sys
-from collections import deque
+input = sys.stdin.readline
 
-n = int(sys.stdin.readline())
-stack = deque()
-for _ in range(n):
-    a = int(sys.stdin.readline().strip())
+K = int(input())
+total = 0
+stack = [] * K
 
-    if a == 0:
-        stack.pop()
+for _ in range(K):
+    N = int(input())
+    if N != 0:
+        stack.append(N)
+        total += N
     else:
-        stack.append(a)
+        total -= stack.pop()
 
-print(sum(stack)) 
+print(total)
